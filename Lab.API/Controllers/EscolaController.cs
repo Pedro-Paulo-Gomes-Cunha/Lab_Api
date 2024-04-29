@@ -50,7 +50,10 @@ namespace Lab.Api.Controllers
             catch (Exception e)
             {
                 //add logs
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                if (e.Message.Equals("An error occurred while saving the entity changes. See the inner exception for details."))
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"Já existe uma escola com o nome {dado.Nome} ou dados demasiado extensos");
+                }else  return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
@@ -61,6 +64,9 @@ namespace Lab.Api.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest();
+
                 _service.Update(dado.ConvertToDto());
 
                 return Ok(dado);
@@ -68,7 +74,10 @@ namespace Lab.Api.Controllers
             catch (Exception e)
             {
                 //add logs
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                if (e.Message.Equals("An error occurred while saving the entity changes. See the inner exception for details."))
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"Já existe uma escola com o nome {dado.Nome} ou dados demasiado extensos");
+                }else return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
@@ -90,15 +99,12 @@ namespace Lab.Api.Controllers
             }
         }
 
-        [HttpGet("Read/{id}")]
+        [HttpGet("ReadById/{id}")]
         [SwaggerOperation(Summary = "Recupera informações sobre uma escola específica")]
         public IActionResult GetById(Guid id)
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest();
-
                 var result = _service.FindById(id);
 
                 if (result == null) return NotFound();
@@ -113,15 +119,12 @@ namespace Lab.Api.Controllers
         }
 
 
-        [HttpGet("Read/{nome}")]
+        [HttpGet("ReadByNome/{nome}")]
         [SwaggerOperation(Summary = "Recupera informações sobre uma escola filtrando pelo nome")]
         public IActionResult GetByNome_da_Escola(string nome)
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest();
-
                 var result = _service.FindByNome(nome).Select(ViewParser.Parse);
 
                 if (result == null) return NotFound();
@@ -135,15 +138,12 @@ namespace Lab.Api.Controllers
             }
         }
 
-        [HttpGet("Read/{provincia}")]
+        [HttpGet("ReadByProvincia/{provincia}")]
         [SwaggerOperation(Summary = "Recupera informações sobre uma escola filtrando por província")]
         public IActionResult GetByProvincia(string provincia)
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest();
-
                 var result = _service.FindByProvincia(provincia).Select(ViewParser.Parse);
 
                 if (result == null) return NotFound();
@@ -173,6 +173,7 @@ namespace Lab.Api.Controllers
                 return BadRequest("Apenas arquivos .xlsx são suportados.");
             }
 
+            string Auxiliar_Nome_da_escola = string.Empty;
             try
             {
                 if (!ModelState.IsValid)
@@ -205,14 +206,22 @@ namespace Lab.Api.Controllers
                 }
 
                 foreach (var escolaview in listaEscolasView)
+                {
+                    Auxiliar_Nome_da_escola = escolaview.Nome;
                     _service.Save(escolaview.ConvertToDto());
+                }
 
                 return Ok("Dados das escolas carregado com sucesso.");
             }
             catch (Exception e)
             {
                 //add logs
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                if (e.Message.Equals("An error occurred while saving the entity changes. See the inner exception for details."))
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"Já existe uma escola com o nome {Auxiliar_Nome_da_escola} ou dados demasiado extensos");
+                }
+                else
+                    return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
     }
