@@ -17,8 +17,9 @@ Abaixo estão descritas as funcionalidades que você deve adicionar à sua aplic
 7. Upload do Excel: O aplicativo deve permitir que o usuário faça o upload do arquivo Excel. Carregamento dos Dados: Após o upload, o aplicativo deve ler os dados do Excel e inseri-los na base de dados, criando uma nova entrada para cada escola no arquivo Excel.
 
 # Ferramentas
-1. C# (Asp.net)
-2. SqlServer (Banco de dados)
+       1. C# (Asp.net)
+       2. SqlServer (Banco de dados)
 
 # Link da Api
+         https://labapi.bsite.net/swagger/index.html
 
