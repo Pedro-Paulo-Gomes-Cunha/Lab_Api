@@ -34,7 +34,7 @@ namespace Lab.Data.Repositories
 
         public IEnumerable<EscolaDto> FindByNome(string Nome)
         {
-            return Dbconection.Escolas.Where(x => x.Nome.Contains(Nome)).Select(x => x.ConvertToDto()).AsEnumerable();
+            return Dbconection.Escolas.Where(x => x.Nome.ToUpper().Equals(Nome.ToUpper())).Select(x => x.ConvertToDto()).AsEnumerable();
         }
 
         public IEnumerable<EscolaDto> FindByProvincia(string Província)

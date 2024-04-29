@@ -1,4 +1,5 @@
 ﻿using Lab.Domain.DTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lab.Domain.DBObjects
 {

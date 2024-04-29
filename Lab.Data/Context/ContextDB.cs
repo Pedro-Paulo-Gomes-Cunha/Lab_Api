@@ -14,6 +14,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Lab.Data.EntityConfig;
 
 namespace Lab.Data.Context
 {
@@ -35,11 +36,12 @@ namespace Lab.Data.Context
         protected override void OnConfiguring(DbContextOptionsBuilder options)
          {
            // var stringConexao = "Data Source=DESKTOP-G4UNLMH\\SQLEXPRESS;Database=TesteDB1;Integrated Security=True;TrustServerCertificate=true;MultipleActiveResultSets=true";
-           var stringConexao = "Data Source=sql.bsite.net\\MSSQL2016;Database=caapp_SampleDB;Escola Id=caapp_SampleDB;Password=1234;TrustServerCertificate=true;MultipleActiveResultSets=true";
+           var stringConexao = "Data Source=sql.bsite.net\\MSSQL2016;Database=caapp_SampleDB;User Id=caapp_SampleDB;Password=1234;TrustServerCertificate=true;MultipleActiveResultSets=true";
             options.UseSqlServer(stringConexao);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new EscolaConfiguration());
             base.OnModelCreating(modelBuilder);
         }
 
