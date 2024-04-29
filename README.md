@@ -4,7 +4,7 @@ O objetivo deste desafio é criar uma aplicação backend (API) que forneça ope
 # Requisitos
 Abaixo estão descritas as funcionalidades que você deve adicionar à sua aplicação.
 
-*Implemente as operações básicas de CRUD para manipular os dados das escolas. Isso inclui:
+.Implemente as operações básicas de CRUD para manipular os dados das escolas. Isso inclui:
 Create (Criar): Permitir a criação de uma nova escola com os seguintes campos obrigatórios: nome, email, número de salas e província.
 Read (Ler): Recuperar informações sobre uma escola específica e listar todas as escolas existentes.
 Update (Atualizar): Permitir a atualização dos dados de uma escola existente.
