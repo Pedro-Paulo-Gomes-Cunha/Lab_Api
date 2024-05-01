@@ -6,6 +6,7 @@ using OfficeOpenXml;
 using Swashbuckle.AspNetCore.Annotations;
 using Web.Api.Views;
 using Newtonsoft.Json;
+using Lab.Domain.DTOs;
 
 namespace Lab.Api.Controllers
 {
@@ -28,7 +29,7 @@ namespace Lab.Api.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
-                var people = _service.FindAll().Select(ViewParser.Parse);
+                var people = _service.FindAll();//.Select(ViewParser.Parse);
                 return Ok(people);
             }
             catch (Exception e)
@@ -127,7 +128,7 @@ namespace Lab.Api.Controllers
         {
             try
             {
-                var result = _service.FindByNome(nome).Select(ViewParser.Parse);
+                var result = _service.FindByNome(nome);//.Select(ViewParser.Parse);
 
                 if (result == null) return NotFound();
 
@@ -146,7 +147,7 @@ namespace Lab.Api.Controllers
         {
             try
             {
-                var result = _service.FindByProvincia(provincia).Select(ViewParser.Parse);
+                var result = _service.FindByProvincia(provincia);//.Select(ViewParser.Parse);
 
                 if (result == null) return NotFound();
 
@@ -179,7 +180,7 @@ namespace Lab.Api.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                var listaEscolasView = new List<EscolaView>();
+                var listaEscolas = new List<EscolaDto>();
                 using (var stream = new MemoryStream())
                 {
                     await file.CopyToAsync(stream);
@@ -193,7 +194,7 @@ namespace Lab.Api.Controllers
                         {
                             if (worksheet.Cells[row, 2].Value != null)
                             {
-                                listaEscolasView.Add(new EscolaView
+                                listaEscolas.Add(new EscolaDto
                                 {
                                     Nome = worksheet.Cells[row, 2].Value?.ToString().Trim(),
                                     Email = worksheet.Cells[row, 3].Value?.ToString().Trim(),
@@ -205,10 +206,10 @@ namespace Lab.Api.Controllers
                     }
                 }
 
-                foreach (var escolaview in listaEscolasView)
+                foreach (var escola in listaEscolas)
                 {
-                    Auxiliar_Nome_da_escola = escolaview.Nome;
-                    _service.Save(escolaview.ConvertToDto());
+                    Auxiliar_Nome_da_escola = escola.Nome;
+                    _service.Save(escola);
                 }
 
                 return Ok("Dados das escolas carregado com sucesso.");

@@ -10,7 +10,7 @@ namespace Lab.Api.Views
 		}
 		public static EscolaView Parse(EscolaDto escola)
 		{
-			return new EscolaView(escola.Id, escola.Nome, escola.Email, escola.Numero_de_Salas, escola.Provincia);
+			return new EscolaView(escola.Id, escola.Nome, escola.Email, escola.Numero_de_Salas);
 		}
     }
 }

@@ -24,9 +24,9 @@ namespace Lab.Api.Controllers
             try
             {
                 var Angola = new Dictionary<string, AngolaView>();
-                using (StreamReader r = new StreamReader(@"ProvinceData/province.json"))
+                using (StreamReader reading = new StreamReader(@"ProvinceData/province.json"))
                 {
-                    var json = r.ReadToEnd();
+                    var json = reading.ReadToEnd();
                     Angola = JsonConvert.DeserializeObject<Dictionary<string, AngolaView>>(json);
                 }
                 return Ok(Angola);
